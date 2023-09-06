@@ -5,7 +5,7 @@
     "build": "parcel build"
   },
   "devDependencies": {
-    "postcss": "^8.4.27",
+    "postcss": "^8.4.29",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
     "sharp": "^0.31.3",
