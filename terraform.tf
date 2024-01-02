@@ -2,10 +2,6 @@ variable "domain_name" {
   type = string
 }
 
-variable "certificate_arn" {
-  type = string
-}
-
 provider "aws" {
   region = "us-east-1"
 }
@@ -19,7 +15,6 @@ terraform {
 }
 
 module "website" {
-  source          = "./terraform/"
-  domain_name     = var.domain_name
-  certificate_arn = var.certificate_arn
+  source      = "./terraform/"
+  domain_name = var.domain_name
 }
