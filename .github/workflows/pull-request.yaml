@@ -9,8 +9,25 @@ on:
   - workflow_dispatch
 
 jobs:
-  check:
-    name: Check pull request
+  check_build:
+    name: Check build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js 20.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20.x'
+
+    - name: Install
+      run: npm ci
+
+    - name: Build
+      run: npm run build
+
+  check_tf:
+    name: Check Terraform
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -27,7 +44,6 @@ jobs:
     - name: Terraform fmt
       id: fmt
       run: terraform fmt -check
-      continue-on-error: true
 
     - name: Terraform Init
       id: init
@@ -37,19 +53,8 @@ jobs:
       id: validate
       run: terraform validate -no-color
 
-    - name: Use Node.js 20.x
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20.x'
-
-    - name: Install
-      run: npm ci
-
-    - name: Build
-      run: npm run build
-
   automerge:
-    needs: check
+    needs: [check_build, check_tf]
     name: Automerge
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
