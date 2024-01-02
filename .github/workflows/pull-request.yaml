@@ -2,7 +2,7 @@ name: Pull Request check
 
 permissions:
   contents: write
-  pull-requests: write
+  id-token: read
 
 on:
   - pull_request
