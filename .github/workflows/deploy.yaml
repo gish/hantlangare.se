@@ -59,4 +59,7 @@ jobs:
     - name: Sync files to S3 bucket
       run: aws s3 sync ./dist s3://hantlangare.se --delete --no-progress
 
+    - name: Invalidate CloudFront distribution
+      run: aws cloudfront create-invalidation --distribution-id E3HJC2056YPDGR --paths "/*" --no-cli-pager
+
 
