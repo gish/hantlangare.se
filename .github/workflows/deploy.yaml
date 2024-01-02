@@ -57,6 +57,6 @@ jobs:
       run: npm run build
 
     - name: Sync files to S3 bucket
-      run: aws s3 sync ./dist s3://hantlangare.se --delete
+      run: aws s3 sync ./dist s3://hantlangare.se --delete --no-progress
 
 
