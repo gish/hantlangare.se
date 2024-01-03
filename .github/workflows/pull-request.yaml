@@ -2,7 +2,7 @@ name: Pull Request check
 
 permissions:
   contents: write
-  id-token: read
+  pull-requests: read
 
 on:
   - pull_request
@@ -32,13 +32,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v3
-      with:
-        role-to-assume: arn:aws:iam::852264810958:role/GitHub_actions
-        role-session-name: GitHub_to_AWS_via_FederatedOIDC
-        aws-region: eu-north-1
-
     - uses: hashicorp/setup-terraform@v3
 
     - name: Terraform fmt
@@ -65,7 +58,7 @@ jobs:
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
       - name: Enable auto-merge for Dependabot PRs
-        run: gh pr merge --auto --merge "$PR_URL"
+        run: gh pr merge "$PR_URL" --auto --squash
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
